@@ -1,9 +1,11 @@
 package com.company.shifo24.handlers;
 
 import com.company.shifo24.domains.dtos.response.AppErrorDTO;
+import com.company.shifo24.exception.ConfirmPasswordErrorException;
 import com.company.shifo24.exception.DuplicateValueException;
 import com.company.shifo24.exception.ItemNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -17,7 +19,7 @@ import java.util.*;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({ItemNotFoundException.class})
+    @ExceptionHandler(ItemNotFoundException.class)
     public ResponseEntity<AppErrorDTO> dataNotFoundExceptionHandler(RuntimeException e, HttpServletRequest request) {
         AppErrorDTO errorDTO = new AppErrorDTO(
                 request.getRequestURI(),
@@ -47,7 +49,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(errorDTO);
     }
 
-    @ExceptionHandler({HttpMessageNotReadableException.class})
+    @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<AppErrorDTO> httpMessageNotReadableExceptionHandler(RuntimeException e, HttpServletRequest request) {
         AppErrorDTO errorDTO = new AppErrorDTO(
                 request.getRequestURI(),
@@ -57,7 +59,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(errorDTO);
     }
 
-    @ExceptionHandler({DuplicateValueException.class})
+    @ExceptionHandler(DuplicateValueException.class)
     public ResponseEntity<AppErrorDTO> duplicateValueExceptionHandler(RuntimeException e, HttpServletRequest request) {
         AppErrorDTO errorDTO = new AppErrorDTO(
                 request.getRequestURI(),
@@ -72,6 +74,16 @@ public class GlobalExceptionHandler {
 //        return ResponseEntity.status(401)
 //                .body(new AppErrorDTO(request.getRequestURI(), "Token has expired .", 401));
 //    }
+
+    @ExceptionHandler(ConfirmPasswordErrorException.class)
+    public ResponseEntity<AppErrorDTO> confirmPasswordErrorExceptionHandler(RuntimeException e, HttpServletRequest request) {
+        AppErrorDTO errorDTO = new AppErrorDTO(
+                request.getRequestURI(),
+                e.getMessage(),
+                400
+        );
+        return ResponseEntity.status(400).body(errorDTO);
+    }
 
     @ExceptionHandler(FileNotFoundException.class)
     public ResponseEntity<AppErrorDTO> fileNotFoundExceptionHandler(FileNotFoundException e, HttpServletRequest request) {

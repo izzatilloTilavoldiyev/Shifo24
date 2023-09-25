@@ -1,5 +1,6 @@
 package com.company.shifo24.domains.entity;
 
+import com.company.shifo24.domains.enums.Role;
 import lombok.*;
 import jakarta.persistence.*;
 
@@ -9,15 +10,23 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User extends PersonalInformation{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+public class User extends BaseEntity{
+
+    @Column(nullable = false)
+    private String firstName;
+    private String lastName;
+
+    @Column(unique = true)
+    private String phoneNumber;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Media media;
 
     @Column(unique = true)
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "personal_information_id")
-    private PersonalInformation personalInformation;
 }
