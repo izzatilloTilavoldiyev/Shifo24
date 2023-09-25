@@ -17,6 +17,9 @@ public class User extends BaseEntity{
     private String lastName;
 
     @Column(unique = true)
+    private String email;
+
+    @Column(unique = true)
     private String phoneNumber;
 
     @Column(nullable = false)
@@ -25,8 +28,5 @@ public class User extends BaseEntity{
 
     @OneToOne(cascade = CascadeType.ALL)
     private Media media;
-
-    @Column(unique = true)
-    private String email;
 
 }

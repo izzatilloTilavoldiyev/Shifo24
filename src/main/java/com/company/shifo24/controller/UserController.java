@@ -2,7 +2,7 @@ package com.company.shifo24.controller;
 
 
 import com.company.shifo24.domains.dtos.request.UserCreateDTO;
-import com.company.shifo24.domains.dtos.response.UserResponseDTO;
+import com.company.shifo24.domains.dtos.response.UserDTO;
 import com.company.shifo24.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -25,11 +25,11 @@ public class UserController {
             summary = "create user"
     )
     @PostMapping
-    public ResponseEntity<UserResponseDTO> create(
+    public ResponseEntity<UserDTO> create(
             @Valid @RequestBody UserCreateDTO userCreateDTO
     ) {
-        UserResponseDTO userResponseDTO = userService.create(userCreateDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDTO);
+        UserDTO userDTO = userService.create(userCreateDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
     }
 
     @Operation(
@@ -37,10 +37,10 @@ public class UserController {
             summary = "get by ID"
     )
     @GetMapping("/{userID}")
-    public ResponseEntity<UserResponseDTO> getByID(
+    public ResponseEntity<UserDTO> getByID(
             @PathVariable Long userID
     ) {
-        UserResponseDTO user = userService.getByID(userID);
+        UserDTO user = userService.getByID(userID);
         return ResponseEntity.ok(user);
     }
 
@@ -49,9 +49,22 @@ public class UserController {
             summary = "get all"
     )
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getAll() {
-        List<UserResponseDTO> allUser = userService.getAllUser();
+    public ResponseEntity<List<UserDTO>> getAll() {
+        List<UserDTO> allUser = userService.getAllUser();
         return ResponseEntity.ok(allUser);
+    }
+
+    @Operation(
+            description = "PUT endpoint to update user",
+            summary = "update"
+    )
+    @PutMapping("/{userID}")
+    public ResponseEntity<UserDTO> update(
+            @PathVariable Long userID,
+            @Valid @RequestBody UserDTO userDTO
+    ) {
+        UserDTO updatedUser = userService.update(userID, userDTO);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @Operation(
