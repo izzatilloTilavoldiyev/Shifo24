@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProfessionCreateDTO {
+public class ProfessionDTO {
     @NotBlank(message = "Name must not be blank")
     private String name;
 }
