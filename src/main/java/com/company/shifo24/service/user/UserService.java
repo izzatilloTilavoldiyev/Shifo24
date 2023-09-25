@@ -1,16 +1,18 @@
 package com.company.shifo24.service.user;
 
 import com.company.shifo24.domains.dtos.request.UserCreateDTO;
-import com.company.shifo24.domains.dtos.response.UserResponseDTO;
+import com.company.shifo24.domains.dtos.response.UserDTO;
 
 import java.util.List;
 
 public interface UserService {
-    UserResponseDTO create(UserCreateDTO userCreateDTO);
+    UserDTO create(UserCreateDTO userCreateDTO);
 
-    UserResponseDTO getByID(Long userID);
+    UserDTO getByID(Long userID);
 
-    List<UserResponseDTO> getAllUser();
+    List<UserDTO> getAllUser();
+
+    UserDTO update(Long userID, UserDTO userDTO);
 
     void delete(Long userID);
 }
