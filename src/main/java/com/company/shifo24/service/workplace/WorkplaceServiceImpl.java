@@ -26,9 +26,8 @@ public class WorkplaceServiceImpl implements WorkplaceService{
     }
 
     @Override
-    public WorkplaceDTO getByID(Long workplaceID) {
-        Workplace workplace = getWorkplaceByID(workplaceID);
-        return modelMapper.map(workplace, WorkplaceDTO.class);
+    public Workplace getByID(Long workplaceID) {
+        return getWorkplaceByID(workplaceID);
     }
 
     @Override

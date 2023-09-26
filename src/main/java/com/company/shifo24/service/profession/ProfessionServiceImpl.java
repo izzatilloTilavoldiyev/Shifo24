@@ -28,9 +28,8 @@ public class ProfessionServiceImpl implements ProfessionService {
     }
 
     @Override
-    public ProfessionDTO getByID(Long professionID) {
-        Profession profession = getProfessionByID(professionID);
-        return modelMapper.map(profession, ProfessionDTO.class);
+    public Profession getByID(Long professionID) {
+        return getProfessionByID(professionID);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class ProfessionServiceImpl implements ProfessionService {
             throw new DuplicateValueException("Profession already exists with Name: " + name);
     }
 
-    private Profession getProfessionByID(Long professionID) {
+    public Profession getProfessionByID(Long professionID) {
         return professionRepository.findById(professionID).orElseThrow(
                 () -> new ItemNotFoundException("Profession not found with ID: " + professionID)
         );

@@ -61,6 +61,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public List<UserDTO> searchByName(String firsName) {
+        return userRepository.searchByName(firsName)
+                .stream()
+                .map(this::toDTO)
+                .toList();
+    }
+
+    @Override
     public void delete(Long userID) {
         if (!userRepository.existsById(userID))
             throw new ItemNotFoundException("User not found with ID: " + userID);

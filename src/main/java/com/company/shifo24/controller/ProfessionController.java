@@ -3,10 +3,12 @@ package com.company.shifo24.controller;
 
 import com.company.shifo24.domains.dtos.request.ProfessionDTO;
 import com.company.shifo24.domains.dtos.request.WorkplaceDTO;
+import com.company.shifo24.domains.entity.Profession;
 import com.company.shifo24.service.profession.ProfessionService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.util.List;
 public class ProfessionController {
 
     private final ProfessionService professionService;
+    private final ModelMapper modelMapper;
 
     @Operation(
             description = "POST endpoint to create new profession",
@@ -40,8 +43,8 @@ public class ProfessionController {
     public ResponseEntity<ProfessionDTO> getByID(
             @PathVariable Long ID
     ) {
-        ProfessionDTO professionDTO = professionService.getByID(ID);
-        return ResponseEntity.ok(professionDTO);
+        Profession profession = professionService.getByID(ID);
+        return ResponseEntity.ok(modelMapper.map(profession, ProfessionDTO.class));
     }
 
     @Operation(
