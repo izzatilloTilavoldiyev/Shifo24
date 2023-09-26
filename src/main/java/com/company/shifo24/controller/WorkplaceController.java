@@ -1,10 +1,12 @@
 package com.company.shifo24.controller;
 
 import com.company.shifo24.domains.dtos.request.WorkplaceDTO;
+import com.company.shifo24.domains.entity.Workplace;
 import com.company.shifo24.service.workplace.WorkplaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/workplace")
 public class WorkplaceController {
+
     private final WorkplaceService workplaceService;
+    private final ModelMapper modelMapper;
 
     @Operation(
             description = "POST endpoint to create new workplace",
@@ -37,8 +41,8 @@ public class WorkplaceController {
     public ResponseEntity<WorkplaceDTO> getByID(
             @PathVariable Long ID
     ) {
-        WorkplaceDTO workplaceDTO = workplaceService.getByID(ID);
-        return ResponseEntity.ok(workplaceDTO);
+        Workplace workplace = workplaceService.getByID(ID);
+        return ResponseEntity.ok(modelMapper.map(workplace, WorkplaceDTO.class));
     }
 
     @Operation(

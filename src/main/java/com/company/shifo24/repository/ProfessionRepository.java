@@ -11,9 +11,8 @@ public interface ProfessionRepository extends JpaRepository<Profession, Long> {
     boolean existsByName(String name);
 
     @Query(value = """
-           from profession p 
-           where lower(p.name) like 
+           select * from profession p where lower(p.name) like 
            lower(concat('%', :name, '%') )
-           """)
+           """, nativeQuery = true)
     List<Profession> searchByName(String name);
 }

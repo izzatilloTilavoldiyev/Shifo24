@@ -68,6 +68,19 @@ public class UserController {
     }
 
     @Operation(
+            description = "GET endpoint to search user by firsName," +
+                    " you can search with part of name and will return List of users",
+            summary = "search"
+    )
+    @GetMapping("/search")
+    public ResponseEntity<List<UserDTO>> search(
+            @RequestParam String firstName
+    ) {
+        List<UserDTO> users = userService.searchByName(firstName);
+        return ResponseEntity.ok(users);
+    }
+
+    @Operation(
             description = "DELETE endpoint to delete user by ID",
             summary = "delete"
     )

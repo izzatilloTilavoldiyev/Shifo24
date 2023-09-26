@@ -1,7 +1,6 @@
 package com.company.shifo24.service.profession;
 
 import com.company.shifo24.domains.dtos.request.ProfessionDTO;
-import com.company.shifo24.domains.dtos.request.WorkplaceDTO;
 import com.company.shifo24.domains.entity.Profession;
 import com.company.shifo24.exception.DuplicateValueException;
 import com.company.shifo24.exception.ItemNotFoundException;
@@ -28,9 +27,8 @@ public class ProfessionServiceImpl implements ProfessionService {
     }
 
     @Override
-    public ProfessionDTO getByID(Long professionID) {
-        Profession profession = getProfessionByID(professionID);
-        return modelMapper.map(profession, ProfessionDTO.class);
+    public Profession getByID(Long professionID) {
+        return getProfessionByID(professionID);
     }
 
     @Override
@@ -74,7 +72,7 @@ public class ProfessionServiceImpl implements ProfessionService {
             throw new DuplicateValueException("Profession already exists with Name: " + name);
     }
 
-    private Profession getProfessionByID(Long professionID) {
+    public Profession getProfessionByID(Long professionID) {
         return professionRepository.findById(professionID).orElseThrow(
                 () -> new ItemNotFoundException("Profession not found with ID: " + professionID)
         );
