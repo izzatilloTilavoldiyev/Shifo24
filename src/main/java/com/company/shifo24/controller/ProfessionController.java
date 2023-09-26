@@ -2,7 +2,6 @@ package com.company.shifo24.controller;
 
 
 import com.company.shifo24.domains.dtos.request.ProfessionDTO;
-import com.company.shifo24.domains.dtos.request.WorkplaceDTO;
 import com.company.shifo24.domains.entity.Profession;
 import com.company.shifo24.service.profession.ProfessionService;
 import io.swagger.v3.oas.annotations.Operation;

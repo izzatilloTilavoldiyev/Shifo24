@@ -1,7 +1,6 @@
 package com.company.shifo24.repository;
 
 import com.company.shifo24.domains.entity.User;
-import com.company.shifo24.domains.entity.Workplace;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,9 +12,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByPhoneNumber(String phoneNumber);
 
     @Query(value = """
-           from users u 
-           where lower(u.firstName) like 
+           select * from users u where lower(u.first_name) like 
            lower(concat('%', :firstName, '%') )
-           """)
+           """, nativeQuery = true)
     List<User> searchByName(String firstName);
 }

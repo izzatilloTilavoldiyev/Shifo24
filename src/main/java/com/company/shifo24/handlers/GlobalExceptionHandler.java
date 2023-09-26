@@ -5,7 +5,6 @@ import com.company.shifo24.exception.ConfirmPasswordErrorException;
 import com.company.shifo24.exception.DuplicateValueException;
 import com.company.shifo24.exception.ItemNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -90,4 +89,5 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(404)
                 .body(new AppErrorDTO(request.getRequestURI(), e.getMessage(), 404));
     }
+
 }
