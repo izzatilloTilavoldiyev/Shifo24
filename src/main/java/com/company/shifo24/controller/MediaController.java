@@ -8,6 +8,7 @@
     import org.springframework.core.io.UrlResource;
     import org.springframework.http.MediaType;
     import org.springframework.http.ResponseEntity;
+    import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.web.bind.annotation.*;
     import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +32,7 @@
                 description = "POST endpoint to upload any files. Max file size must be 10MB",
                 summary = "API to store file"
         )
+        @PreAuthorize("hasRole('ADMIN')")
         @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
         public Media uploadFile(
                 @RequestParam("file") MultipartFile file
@@ -42,6 +44,7 @@
                 description = "GET endpoint to download file. You need to give file id",
                 summary = "API to download file"
         )
+        @PreAuthorize("hasRole('ADMIN')")
         @GetMapping("/download/{fileID}")
         public ResponseEntity<Resource> downloadFile(
                 @PathVariable Long fileID

@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class DoctorController {
             description = "POST endpoint to create doctor",
             summary = "create doctor"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<DoctorResponseDTO> create(
             @Valid @RequestBody DoctorCreateDTO doctorCreateDTO
@@ -36,6 +38,7 @@ public class DoctorController {
             description = "GET endpoint to get doctor by ID",
             summary = "get by ID"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{doctorID}")
     public ResponseEntity<DoctorResponseDTO> getByID(
             @PathVariable Long doctorID
@@ -48,6 +51,7 @@ public class DoctorController {
             description = "GET endpoint to get all doctors",
             summary = "get all"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<DoctorResponseDTO>> getAll() {
         List<DoctorResponseDTO> allDoctor = doctorService.getAllDoctor();
@@ -58,6 +62,7 @@ public class DoctorController {
             description = "PUT endpoint to update doctor",
             summary = "update"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{doctorID}")
     public ResponseEntity<DoctorResponseDTO> update(
             @PathVariable Long doctorID,
@@ -72,6 +77,7 @@ public class DoctorController {
                     " you can search with part of name and will return List of doctors",
             summary = "search"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/search")
     public ResponseEntity<List<DoctorResponseDTO>> search(
             @RequestParam String firstName
@@ -84,6 +90,7 @@ public class DoctorController {
             description = "DELETE endpoint to delete doctor by ID",
             summary = "delete"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{doctorID}")
     public ResponseEntity<String> delete(
             @PathVariable Long doctorID

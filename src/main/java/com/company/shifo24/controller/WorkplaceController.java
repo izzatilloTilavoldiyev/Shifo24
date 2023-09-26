@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class WorkplaceController {
             description = "POST endpoint to create new workplace",
             summary = "create workplace"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<WorkplaceDTO> create(
             @Valid @RequestBody WorkplaceDTO workplaceDTO
@@ -37,6 +39,7 @@ public class WorkplaceController {
             description = "GET endpoint to get workplace by ID",
             summary = "get by ID"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{ID}")
     public ResponseEntity<WorkplaceDTO> getByID(
             @PathVariable Long ID
@@ -49,6 +52,7 @@ public class WorkplaceController {
             description = "GET endpoint to get all workplaces",
             summary = "get all"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<WorkplaceDTO>> getAll() {
         List<WorkplaceDTO> allWorkplace = workplaceService.getAllWorkplace();
@@ -60,6 +64,7 @@ public class WorkplaceController {
                           "you can search with part of name and will return List of workplaces",
             summary = "search"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/search")
     public ResponseEntity<List<WorkplaceDTO>> search(
             @RequestParam String name
@@ -72,6 +77,7 @@ public class WorkplaceController {
             description = "PUT endpoint to update workplace by ID",
             summary = "update"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{ID}")
     public ResponseEntity<WorkplaceDTO> update(
             @PathVariable Long ID,
@@ -85,6 +91,7 @@ public class WorkplaceController {
             description = "DELETE endpoint to delete workplace by ID",
             summary = "delete by ID"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{ID}")
     public ResponseEntity<String> delete(
             @PathVariable Long ID

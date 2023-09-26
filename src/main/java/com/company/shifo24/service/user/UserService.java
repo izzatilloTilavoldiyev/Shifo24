@@ -1,5 +1,6 @@
 package com.company.shifo24.service.user;
 
+import com.company.shifo24.domains.dtos.request.ChangePasswordDTO;
 import com.company.shifo24.domains.dtos.request.UserCreateDTO;
 import com.company.shifo24.domains.dtos.response.UserDTO;
 
@@ -17,4 +18,6 @@ public interface UserService {
     List<UserDTO> searchByName(String firsName);
 
     void delete(Long userID);
+
+    void changePassword(ChangePasswordDTO changePasswordDTO);
 }

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class ProfessionController {
             description = "POST endpoint to create new profession",
             summary = "create profession"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProfessionDTO> create(
             @Valid @RequestBody ProfessionDTO professionDTO
@@ -38,6 +40,7 @@ public class ProfessionController {
             description = "GET endpoint to get profession by ID",
             summary = "get by ID"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{ID}")
     public ResponseEntity<ProfessionDTO> getByID(
             @PathVariable Long ID
@@ -50,6 +53,7 @@ public class ProfessionController {
             description = "GET endpoint to get all professions",
             summary = "get all"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<ProfessionDTO>> getAll() {
         List<ProfessionDTO> allProfession = professionService.getAllProfession();
@@ -61,6 +65,7 @@ public class ProfessionController {
                           " you can search with part of name and will return List of professions",
             summary = "search"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/search")
     public ResponseEntity<List<ProfessionDTO>> search(
             @RequestParam String name
@@ -73,6 +78,7 @@ public class ProfessionController {
             description = "PUT endpoint to update profession by ID",
             summary = "update"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{ID}")
     public ResponseEntity<ProfessionDTO> update(
             @PathVariable Long ID,
@@ -86,6 +92,7 @@ public class ProfessionController {
             description = "DELETE endpoint to delete profession by ID",
             summary = "delete by ID"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{ID}")
     public ResponseEntity<String> delete(
             @PathVariable Long ID

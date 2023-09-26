@@ -1,6 +1,7 @@
 package com.company.shifo24.controller;
 
 
+import com.company.shifo24.domains.dtos.request.ChangePasswordDTO;
 import com.company.shifo24.domains.dtos.request.UserCreateDTO;
 import com.company.shifo24.domains.dtos.response.UserDTO;
 import com.company.shifo24.service.user.UserService;
@@ -9,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +26,7 @@ public class UserController {
             description = "POST endpoint to create user",
             summary = "create user"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<UserDTO> create(
             @Valid @RequestBody UserCreateDTO userCreateDTO
@@ -36,6 +39,7 @@ public class UserController {
             description = "GET endpoint to get user by ID",
             summary = "get by ID"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{userID}")
     public ResponseEntity<UserDTO> getByID(
             @PathVariable Long userID
@@ -48,6 +52,7 @@ public class UserController {
             description = "GET endpoint to get all users",
             summary = "get all"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAll() {
         List<UserDTO> allUser = userService.getAllUser();
@@ -58,6 +63,7 @@ public class UserController {
             description = "PUT endpoint to update user",
             summary = "update"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{userID}")
     public ResponseEntity<UserDTO> update(
             @PathVariable Long userID,
@@ -72,6 +78,7 @@ public class UserController {
                     " you can search with part of name and will return List of users",
             summary = "search"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/search")
     public ResponseEntity<List<UserDTO>> search(
             @RequestParam String firstName
@@ -84,11 +91,25 @@ public class UserController {
             description = "DELETE endpoint to delete user by ID",
             summary = "delete"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{userID}")
     public ResponseEntity<String> delete(
             @PathVariable Long userID
     ) {
         userService.delete(userID);
         return ResponseEntity.ok("Successfully deleted!");
+    }
+
+    @Operation(
+            description = "PUT endpoint to change password of user",
+            summary = "change password"
+    )
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/change-password")
+    public ResponseEntity<String> changePassword(
+            @Valid @RequestBody ChangePasswordDTO changePasswordDTO
+    ) {
+        userService.changePassword(changePasswordDTO);
+        return ResponseEntity.ok("Password successfully changed!");
     }
 }
