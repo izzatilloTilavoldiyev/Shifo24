@@ -26,8 +26,7 @@ public class AuthServiceImpl implements AuthService{
                         loginDTO.getEmail(),
                         loginDTO.getPassword()
                 )
-        );
-// this method use when i save password encoded.d*/
+        );*/
         User user = checkUserExists(loginDTO.getEmail(), loginDTO.getPassword());
         return jwtService.generateToken(user.getEmail());
     }
