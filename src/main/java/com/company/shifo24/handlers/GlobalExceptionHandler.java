@@ -4,6 +4,7 @@ import com.company.shifo24.domains.dtos.response.AppErrorDTO;
 import com.company.shifo24.exception.ConfirmPasswordErrorException;
 import com.company.shifo24.exception.DuplicateValueException;
 import com.company.shifo24.exception.ItemNotFoundException;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -68,11 +69,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(409).body(errorDTO);
     }
 
-//    @ExceptionHandler(ExpiredJwtException.class)
-//    public ResponseEntity<AppErrorDTO> expiredJwtExceptionHandler(ExpiredJwtException e, HttpServletRequest request) {
-//        return ResponseEntity.status(401)
-//                .body(new AppErrorDTO(request.getRequestURI(), "Token has expired .", 401));
-//    }
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<AppErrorDTO> expiredJwtExceptionHandler(ExpiredJwtException e, HttpServletRequest request) {
+        return ResponseEntity.status(401)
+                .body(new AppErrorDTO(request.getRequestURI(), "Token has expired .", 401));
+    }
 
     @ExceptionHandler(ConfirmPasswordErrorException.class)
     public ResponseEntity<AppErrorDTO> confirmPasswordErrorExceptionHandler(RuntimeException e, HttpServletRequest request) {
