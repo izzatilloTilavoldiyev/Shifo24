@@ -1,11 +1,12 @@
 package com.company.shifo24.service.user;
 
 
+import com.company.shifo24.domains.dtos.request.ChangePasswordDTO;
 import com.company.shifo24.domains.dtos.request.UserCreateDTO;
 import com.company.shifo24.domains.dtos.response.UserDTO;
 import com.company.shifo24.domains.entity.User;
 import com.company.shifo24.domains.enums.Role;
-import com.company.shifo24.exception.ConfirmPasswordErrorException;
+import com.company.shifo24.exception.PasswordErrorException;
 import com.company.shifo24.exception.DuplicateValueException;
 import com.company.shifo24.exception.ItemNotFoundException;
 import com.company.shifo24.repository.UserRepository;
@@ -75,13 +76,26 @@ public class UserServiceImpl implements UserService{
         userRepository.deleteById(userID);
     }
 
+    @Override
+    public void changePassword(ChangePasswordDTO changePasswordDTO) {
+        User user = userRepository.findByEmail(changePasswordDTO.getEmail()).orElseThrow(
+                () -> new ItemNotFoundException("User not found with Email: " + changePasswordDTO.getEmail())
+        );
+        if (user.getPassword().equals(changePasswordDTO.getOldPassword())) {
+            checkUserPassword(changePasswordDTO.getNewPassword(), changePasswordDTO.getConfirmPassword());
+            user.setPassword(changePasswordDTO.getNewPassword());
+            userRepository.save(user);
+        } else
+            throw new PasswordErrorException("User old password wrong : " + changePasswordDTO.getOldPassword());
+    }
+
     private UserDTO toDTO(User user) {
         return modelMapper.map(user, UserDTO.class);
     }
 
     private void checkUserPassword(String password, String confirmPassword) {
         if (!password.equals(confirmPassword))
-            throw new ConfirmPasswordErrorException("Confirm password error with Confirm password: " + confirmPassword);
+            throw new PasswordErrorException("Confirm password error with Confirm password: " + confirmPassword);
     }
 
     private User getUserByID(Long userID) {

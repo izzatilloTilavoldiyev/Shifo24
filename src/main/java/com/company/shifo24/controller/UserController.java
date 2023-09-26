@@ -1,6 +1,7 @@
 package com.company.shifo24.controller;
 
 
+import com.company.shifo24.domains.dtos.request.ChangePasswordDTO;
 import com.company.shifo24.domains.dtos.request.UserCreateDTO;
 import com.company.shifo24.domains.dtos.response.UserDTO;
 import com.company.shifo24.service.user.UserService;
@@ -97,5 +98,18 @@ public class UserController {
     ) {
         userService.delete(userID);
         return ResponseEntity.ok("Successfully deleted!");
+    }
+
+    @Operation(
+            description = "PUT endpoint to change password of user",
+            summary = "change password"
+    )
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/change-password")
+    public ResponseEntity<String> changePassword(
+            @Valid @RequestBody ChangePasswordDTO changePasswordDTO
+    ) {
+        userService.changePassword(changePasswordDTO);
+        return ResponseEntity.ok("Password successfully changed!");
     }
 }
